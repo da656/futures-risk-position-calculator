@@ -46,6 +46,13 @@ class DataPipelineTest(unittest.TestCase):
         with self.assertRaises(module.ValidationError):
             module.validate_record(future_source_date, 'CFFEX', set())
 
+    def test_public_dynamic_fee_artifacts_validate_without_excel_snapshot(self) -> None:
+        spec = importlib.util.spec_from_file_location('pipeline_check', ROOT / 'scripts' / 'check_data_pipeline.py')
+        assert spec and spec.loader
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        module.validate_public_dynamic_fee_artifacts()
+
     def test_update_then_check_all_keeps_all_generated_data_consistent(self) -> None:
         self.assertIsNotNone(NPM, '未找到 npm 命令')
         assert NPM is not None

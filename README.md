@@ -44,7 +44,7 @@ npm run data:check-all
 
 `data:update` 会依次构建固定参数、同步 `officialContracts.ts`、构建动态手续费/保证金数据，再同步 `exchangeFeeMargins.ts`。
 
-`data:check-all` 适合本地提交前或 CI 执行：它会执行固定参数 JSON Schema 与业务校验、验证动态费用覆盖报告，并检查以下生成文件是否已经过期。若重新生成会产生变化，命令会失败并提示运行 `npm run data:update`。
+`data:check-all` 适合本地提交前或 CI 执行：它会执行固定参数 JSON Schema 与业务校验、验证动态费用覆盖报告，并检查以下生成文件是否已经过期。若本地存在未公开的动态费用 Excel 快照，会额外重新生成并逐字校验动态产物；公开 CI 不提交该快照，改为校验已提交的动态 JSON、未解决清单、覆盖报告及前端同步文件。若重新生成会产生变化，命令会失败并提示运行 `npm run data:update`。
 
 - `outputs/china-futures-contracts.json`
 - `src/data/officialContracts.ts`
