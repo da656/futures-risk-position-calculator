@@ -10,6 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 NPM = shutil.which('npm.cmd') or shutil.which('npm')
+FEE_SNAPSHOT = ROOT / 'outputs' / 'exchange_fee_margin_snapshot.xlsx'
 
 
 def run_command(command: list[str]) -> subprocess.CompletedProcess[str]:
@@ -51,13 +52,19 @@ class DataPipelineTest(unittest.TestCase):
         assert spec and spec.loader
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        module.validate_public_dynamic_fee_artifacts()
+        original_snapshot = module.SNAPSHOT
+        try:
+            module.SNAPSHOT = ROOT / 'outputs' / 'private-snapshot-not-present.xlsx'
+            self.assertEqual(module.check_dynamic_fee_artifacts(), 0)
+        finally:
+            module.SNAPSHOT = original_snapshot
 
     def test_update_then_check_all_keeps_all_generated_data_consistent(self) -> None:
         self.assertIsNotNone(NPM, '未找到 npm 命令')
         assert NPM is not None
-        update = run_command([NPM, 'run', 'data:update'])
-        self.assertEqual(update.returncode, 0, update.stderr)
+        if FEE_SNAPSHOT.exists():
+            update = run_command([NPM, 'run', 'data:update'])
+            self.assertEqual(update.returncode, 0, update.stderr)
         check = run_command([NPM, 'run', 'data:check-all'])
         self.assertEqual(check.returncode, 0, check.stderr)
         report = (ROOT / 'outputs' / 'fee-margin-coverage-report.md').read_text(encoding='utf-8')
