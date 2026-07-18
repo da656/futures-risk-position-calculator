@@ -1,0 +1,16 @@
+﻿kind,key,reason
+unmapped-record,CZCE:PL,当前固定合约数据无唯一匹配，未自动接入
+unmapped-record,CZCE:NEEDS_MAPPING,当前固定合约数据无唯一匹配，未自动接入
+duplicate-record,DCE:V,快照中存在重复品种键，全部记录均未自动接入
+duplicate-record,DCE:PP,快照中存在重复品种键，全部记录均未自动接入
+duplicate-record,DCE:L,快照中存在重复品种键，全部记录均未自动接入
+unmapped-record,DCE:BZ,当前固定合约数据无唯一匹配，未自动接入
+duplicate-record,CFFEX:T,快照中存在重复品种键，全部记录均未自动接入
+missing-snapshot,CFFEX:TF,快照未提供可自动带入的保证金/手续费
+missing-snapshot,CZCE:JR,快照未提供可自动带入的保证金/手续费
+missing-snapshot,CZCE:LR,快照未提供可自动带入的保证金/手续费
+missing-snapshot,CZCE:PM,快照未提供可自动带入的保证金/手续费
+missing-snapshot,CZCE:RI,快照未提供可自动带入的保证金/手续费
+missing-snapshot,CZCE:RS,快照未提供可自动带入的保证金/手续费
+missing-snapshot,CZCE:WH,快照未提供可自动带入的保证金/手续费
+missing-snapshot,CZCE:ZC,快照未提供可自动带入的保证金/手续费

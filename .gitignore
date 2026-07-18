@@ -1,0 +1,58 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Private configuration, credentials and local user data — never publish.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.credentials.json
+
+# Raw local source workbooks may contain provenance or user annotations.
+# The reviewed JSON/TypeScript generated datasets remain publishable.
+outputs/*.xlsx
+outputs/*.xls
+outputs/*.xlsm
+
+# Local records and exports must never enter the public repository.
+history/
+private/
+user-data/
+*交易记录*
+*交割单*
+
+# Local agent handoffs and development artefacts are not project documentation.
+HANDOFF*.md
+.hermes/
+vite-dev.log
+
+# Generated caches and editable source documents are not needed to build the public project.
+__pycache__/
+*.py[cod]
+outputs/*.docx

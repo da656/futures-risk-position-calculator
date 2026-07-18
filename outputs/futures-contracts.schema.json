@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schemas/futures-contracts.schema.json",
+  "title": "中国境内期货品种基础参数库",
+  "description": "仅用于当前仍上市的中国境内期货品种基础参数记录。单个数组元素代表一个品种，不包含期权、终止上市或不再交易的历史品种。",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/futuresContract"
+  },
+  "$defs": {
+    "futuresContract": {
+      "type": "object",
+      "description": "单个期货品种的基础参数。全部数值字段必须为 JSON number，计量文字仅放入对应单位字段。",
+      "additionalProperties": false,
+      "required": [
+        "exchange",
+        "exchangeName",
+        "name",
+        "symbol",
+        "productType",
+        "tradingUnit",
+        "quoteUnit",
+        "contractMultiplier",
+        "multiplierUnit",
+        "minTick",
+        "tickUnit",
+        "tickValue",
+        "sourceUrl",
+        "sourceTitle",
+        "sourcePublishedAt",
+        "verificationStatus",
+        "verifiedAt",
+        "notes"
+      ],
+      "properties": {
+        "exchange": {
+          "type": "string",
+          "enum": [
+            "SHFE",
+            "INE",
+            "DCE",
+            "CZCE",
+            "GFEX",
+            "CFFEX"
+          ],
+          "description": "交易所简称。"
+        },
+        "exchangeName": {
+          "type": "string",
+          "enum": [
+            "上海期货交易所",
+            "上海国际能源交易中心",
+            "大连商品交易所",
+            "郑州商品交易所",
+            "广州期货交易所",
+            "中国金融期货交易所"
+          ],
+          "description": "交易所中文全称；采集时必须与 exchange 对应。"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "品种中文名，不包含具体交割月份。"
+        },
+        "symbol": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9]*$",
+          "description": "交易代码，例如 RB、IF、T；不包含具体合约月份。"
+        },
+        "productType": {
+          "type": "string",
+          "enum": [
+            "commodity",
+            "stock_index",
+            "treasury_bond",
+            "freight_index"
+          ],
+          "description": "品种类别：商品、股指、国债或运价指数期货。"
+        },
+        "tradingUnit": {
+          "type": "string",
+          "minLength": 1,
+          "description": "交易所公布的交易单位原文，例如“10 吨/手”。不得用此字段替代 contractMultiplier。"
+        },
+        "quoteUnit": {
+          "type": "string",
+          "minLength": 1,
+          "description": "交易所公布的报价单位原文，例如“元（人民币）/吨”。"
+        },
+        "contractMultiplier": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "用于盈亏计算的合约乘数。其含义是报价变动 1 个 quoteUnit 时，每手对应的计价数量或金额；须按 quoteUnit 与交易单位换算，不能机械照抄 tradingUnit。"
+        },
+        "multiplierUnit": {
+          "type": "string",
+          "minLength": 1,
+          "description": "contractMultiplier 的计价单位，例如“吨”“点”“每100元面值”或“元/点”。"
+        },
+        "minTick": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "最小变动价位的纯数值，不得拼接单位文字。"
+        },
+        "tickUnit": {
+          "type": "string",
+          "minLength": 1,
+          "description": "最小变动价位的单位，例如“元/吨”“元/500千克”“点”。"
+        },
+        "tickValue": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "每跳每手盈亏的纯数值（人民币元）。语义约束：必须等于 contractMultiplier × minTick；若报价单位与交易单位不一致，应先完成单位换算后再计算。"
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "该品种交易所官网的合约页、业务细则页或官方规则页 URL。必须是可解析的绝对 URL；交易所官方页面仅提供 HTTP 时可保留其官方 HTTP 地址。"
+        },
+        "sourceTitle": {
+          "type": "string",
+          "minLength": 1,
+          "description": "sourceUrl 对应官方页面的页面标题或官方文件标题。"
+        },
+        "sourcePublishedAt": {
+          "type": "string",
+          "pattern": "^$|^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "官方来源文件或页面明确载明的发布日期；官方来源未载明或未能从该来源确定时为空字符串。"
+        },
+        "verificationStatus": {
+          "type": "string",
+          "enum": [
+            "official-static",
+            "user-confirmed"
+          ],
+          "description": "固定参数的纳入状态：official-static 为逐条官方静态来源核验；user-confirmed 为用户明确确认附件参数正确后强制纳入。"
+        },
+        "verifiedAt": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "人工核对官方来源的日期，格式 YYYY-MM-DD。"
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1,
+          "description": "记录特殊换算、国债面值折算、报价单位与交易单位不一致、临时规则或其他必须说明的事实；无特殊事项时写“无特殊换算”。"
+        }
+      },
+      "allOf": [
+        {
+          "$comment": "采集校验规则：exchange 与 exchangeName 必须一一对应。此跨字段映射以及 tickValue = contractMultiplier × minTick 需在采集/导入程序中执行；JSON Schema 不执行算术运算。"
+        }
+      ]
+    }
+  }
+}
