@@ -141,7 +141,7 @@ npm run data:check-all
 - 数据文件：`outputs/exchange-fee-margin.json`
 - 前端同步模块：`src/data/exchangeFeeMargins.ts`
 - 当前自动带入覆盖：**74/86（86.0%）**；覆盖和未解决分类以 `outputs/fee-margin-coverage-report.md` 为准。重复快照键会整组排除，不会选择其中任意一条自动带入。
-- 当前来源：用户确认的 `outputs/exchange_fee_margin_snapshot.xlsx` 快照；该工作簿的创建日期为 **2026-07-17**。该日期仅表示当前快照的可追溯时间，不替代交易所公告日期或实际账户适用日期。
+- 当前来源：用户确认并公开随仓库提交的 `outputs/exchange_fee_margin_snapshot.xlsx` 快照；该工作簿的创建日期为 **2026-07-17**。公开快照用于复现动态费用产物，不应写入个人批注、账户资料或交易记录。该日期仅表示当前快照的可追溯时间，不替代交易所公告日期或实际账户适用日期。
 - 动态数据未覆盖、无法唯一映射或存在重复快照记录的品种，不会伪造自动参数；用户须根据交易所、期货公司、账户和实际合约手动填写保证金与开平手续费。
 - 未解决动态费用项单独保存在：`outputs/unresolved-fee-margins.csv`。当前覆盖报告会区分缺失快照、重复记录、无法映射记录和无效快照/键。
 

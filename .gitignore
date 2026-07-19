@@ -39,6 +39,8 @@ dist-ssr
 outputs/*.xlsx
 outputs/*.xls
 outputs/*.xlsm
+# This reviewed snapshot is intentionally public so dynamic-fee artifacts can be reproduced.
+!outputs/exchange_fee_margin_snapshot.xlsx
 
 # Local records and exports must never enter the public repository.
 history/
